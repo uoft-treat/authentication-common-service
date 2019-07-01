@@ -1,10 +1,12 @@
-import * as dotenv from 'dotenv';
+import * as dotenv            from 'dotenv';
 // @ts-ignore
-import {default as express} from 'express';
-import * as bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import {MessageController} from "./controller";
-import {MessageServiceImpl} from "./service/impl";
+import {default as express}   from 'express';
+import * as bodyParser        from 'body-parser';
+import mongoose               from 'mongoose';
+import {UserController}       from "./controller/UserController";
+import {UserServiceImpl}      from "./service/impl/UserServiceImpl";
+import {UserTokenController}  from "./controller/UserTokenController";
+import {UserTokenServiceImpl} from "./service/impl/UserTokenServiceImpl";
 
 dotenv.config();
 
@@ -14,11 +16,14 @@ const app = express();
 app.use(bodyParser.json());
 
 // Initialize all controllers
-const messageController = new MessageController(new MessageServiceImpl());
+const userController = new UserController(new UserServiceImpl());
+const userTokenController = new UserTokenController(new UserTokenServiceImpl());
 
 // Insert your routes here
-app.post("/messages", messageController.createNewMessage);
-app.get("/messages", messageController.listAllMessages);
+app.post("/users", userController.createNewUser);
+app.get("/users", userController.getAllUsers);
+app.post("/tokens", userTokenController.createNewUserToken);
+app.get("/tokens/:body", userTokenController.getUserByToken);
 
 // Configure error handler, do not add more config below
 app.use((err, req, res, next) => {

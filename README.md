@@ -1,24 +1,108 @@
-# common-service-template
+# Authentication Common Service
 
-Template for common micro-services.
+Provides authentication services.
 
-This package contains many useful dependencies that you might want to use:
+## API Reference
 
-* Babel with TypeScript
-* Boom
-* Express.js
-* Mongoose
-* Dotenv
-* Mocha
+### Create User
 
-## Quick Start
+POST `/users`
 
-To run this package, first copy `.env.example` to `.env` by typing the following command
+Request
 
-```bash
-$ cp .env.example .env
+```json
+{
+	"username": "me@jakczh.com",
+	"password": "securepassword"
+}
 ```
 
-Then edit `.env` file to match your local setup.
+Response
 
-Finally, run `npm install && npm start` to run the development environment.
+```json
+{
+    "roles": [
+        "ADMIN"
+    ],
+    "_id": "5d1a4b8dba180f9cd1daba5d",
+    "username": "me@jakczh.com",
+    "password": "64e936713937610581039f9a00bba386425c96c431b311d61496c04a7f39ae1c",
+    "source": "LOCAL",
+    "__v": 0
+}
+```
+
+### List Users
+
+GET `/users`
+
+Response
+
+```json
+[
+  {
+      "roles": [
+          "ADMIN"
+      ],
+      "_id": "5d1a4b8dba180f9cd1daba5d",
+      "username": "me@jakczh.com",
+      "password": "64e936713937610581039f9a00bba386425c96c431b311d61496c04a7f39ae1c",
+      "source": "LOCAL",
+      "__v": 0
+  },
+  ...
+]
+```
+
+
+### Create Token
+
+POST `/tokens`
+
+Request
+
+```json
+{
+	"username": "me@jakczh.com",
+	"password": "securepassword"
+}
+```
+
+Response
+
+```
+{
+    "_id": "5d1a51def76ddba0c557d4c6",
+    "user": {
+        "roles": [
+            "ADMIN"
+        ],
+        "_id": "5d1a4b8dba180f9cd1daba5d",
+        "username": "me@jakczh.com",
+        "password": "64e936713937610581039f9a00bba386425c96c431b311d61496c04a7f39ae1c",
+        "source": "LOCAL",
+        "__v": 0
+    },
+    "body": "3adfb205-1bf9-445d-b15a-c310deb6a923",
+    "__v": 0
+}
+```
+
+### Get User by Token
+
+GET `/tokens/:body`
+
+Response
+
+```json
+{
+    "roles": [
+        "ADMIN"
+    ],
+    "_id": "5d1a4b8dba180f9cd1daba5d",
+    "username": "me@jakczh.com",
+    "password": "64e936713937610581039f9a00bba386425c96c431b311d61496c04a7f39ae1c",
+    "source": "LOCAL",
+    "__v": 0
+}
+```
