@@ -2,6 +2,8 @@
 
 Provides authentication services.
 
+Dev `https://dev-authentication-common-service.treatproject.tk/`
+
 ## API Reference
 
 ### Create User
